@@ -1,6 +1,7 @@
 package edu.school21.maze.generation;
 
 import edu.school21.maze.model.Maze;
+import edu.school21.maze.model.SetCollection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class MazeGenerator {
     private List<Integer> decisionArray;
     private List<Integer> list;
     private List<Integer> list2;
-    private List<List<Integer>> countBottomWall;
+    private List<SetCollection> countBottomWall;
     private int indexDecisionArray;
 
 
@@ -43,13 +44,16 @@ public class MazeGenerator {
     public void mazeGeneration() {
         list2 = Stream.generate(() -> 0).limit(maze.getNumberOfCols()).collect(Collectors.toCollection(ArrayList::new));
         for (int i = 0; i < 50; i++) {
-            countBottomWall.add(new ArrayList<>(Arrays.asList(0, 0)));
+            countBottomWall.add(new SetCollection(0, 0, maze.getNumberOfCols()));
         }
         list = new ArrayList<>(list2);
         fillingArrayWithNumbersInOrder(list);
         placeWallOnTheRight(list);
         placeWallOnTheBottom(list);
+        list2 = new ArrayList<>(list);
+        resetCellsWithBottomWalls(list2);
     }
+
 
     private void placeWallOnTheRight(List<Integer> list) {
         for (int i = 0; i < list.size(); i++) {
@@ -61,7 +65,8 @@ public class MazeGenerator {
                     for (int j = i + 1; j < list.size(); j++) {
                         if (list.get(j).equals(list.get(i))) {
                             list.set(j, list.get(i));
-                            countBottomWall.get(list.get(i)).set(0, countBottomWall.get(list.get(i)).get(0) + 1);
+                            //countBottomWall.get(list.get(i)).set(0, countBottomWall.get(list.get(i)).get(0) + 1);
+                            countBottomWall.get(list.get(i)).setNumberOfBottomWallsInSet(countBottomWall.get(list.get(i)).getNumberOfBottomWallsInSet() + 1);
                         }
                     }
                 }
@@ -72,11 +77,16 @@ public class MazeGenerator {
     }
 
     private void placeWallOnTheBottom(List<Integer> list) {
-        for (Integer integer : list) {
+        for (int i = 0; i < list.size(); i++) {
             if (decisionArray.get(indexDecisionArray++) == 1) {
-                if (countBottomWall.get(integer).get(0) - countBottomWall.get(integer).get(1) > 1) {
+//                if (countBottomWall.get(integer).get(0) - countBottomWall.get(integer).get(1) > 1) {
+//                    maze.putBottomWall(1);
+//                    countBottomWall.get(integer).set(1, countBottomWall.get(integer).get(1) + 1);
+//                }
+                if(countBottomWall.get(list.get(i)).getNumberOfCellsInSet() - countBottomWall.get(list.get(i)).getNumberOfBottomWallsInSet() > 1){
                     maze.putBottomWall(1);
-                    countBottomWall.get(integer).set(1, countBottomWall.get(integer).get(1) + 1);
+                    countBottomWall.get(list.get(i)).setNumberOfBottomWallsInSet(countBottomWall.get(list.get(i)).getNumberOfBottomWallsInSet() + 1);
+                    countBottomWall.get(list.get(i)).getIndexList().add(i);
                 }
             } else {
                 maze.putBottomWall(0);
@@ -84,6 +94,9 @@ public class MazeGenerator {
         }
     }
 
+    private void resetCellsWithBottomWalls(List<Integer> list) {
+        list.stream().filter()
+    }
     private void fillingArrayWithNumbersInOrder(List<Integer> list) {
         for (int i = 0; i < maze.getNumberOfCols(); i++) {
             if (list.get(i) == 0) {
