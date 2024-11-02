@@ -10,7 +10,7 @@ public class Maze {
     private List<Integer> horizontalWall;
     private List<Integer> verticalWall;
 
-    public Maze(int numberOfCols, int numberOfRows) {
+    public Maze(int numberOfRows, int numberOfCols) {
         NumberOfCols = numberOfCols;
         NumberOfRows = numberOfRows;
         horizontalWall = new ArrayList<>();

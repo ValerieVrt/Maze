@@ -10,6 +10,7 @@
 
 package edu.school21.maze.app;
 
+import edu.school21.maze.controller.Controller;
 import edu.school21.maze.generation.MazeGenerator;
 import edu.school21.maze.model.Maze;
 import javafx.application.Application;
@@ -30,38 +31,40 @@ public class Main extends Application {
         Application.launch();
     }
 
-
     @Override
-    public void start(Stage stage) throws Exception {
-        Canvas canvas = new Canvas(500, 500);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        Maze maze = new Maze(10,10);
-
-        MazeGenerator mazeGenerator = new MazeGenerator(maze);
-        mazeGenerator.mazeGeneration();
-
-
-        int cellWidth = (int) Math.floor((double) width / (maze.getNumberOfCols() + 1));
-        int cellHeight = (int) Math.floor((double) height / (maze.getNumberOfRows() + 1));
-
-
-
-
-        for (int i = 0; i < maze.getNumberOfRows(); i++) {
-            for (int j = 0; j < maze.getNumberOfCols(); j++) {
-                gc.setFill(Color.BLACK);
-                if (maze.getVerticalWall().get(i * maze.getNumberOfCols() + j) == 1) {
-                    gc.fillRect((j + 1)  * cellWidth - 2, i * cellHeight, 2, cellHeight);
-                }
-                if (maze.getHorizontalWall().get(i * maze.getNumberOfCols() + j) == 1) {
-                    gc.fillRect(j * cellWidth, (i + 1)  * cellHeight - 2 , cellWidth , 2);
-                }
-            }
-        }
-        Group root = new Group(canvas);
-        Scene scene = new Scene(root, 500, 500);
-        stage.setScene(scene);
-        stage.show();
-
+    public void start(Stage stage) {
+        Controller mazeApp = new Controller();
+        mazeApp.start(stage);
     }
+
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        Canvas canvas = new Canvas(500, 500);
+//        GraphicsContext gc = canvas.getGraphicsContext2D();
+//        Maze maze = new Maze(10,10);
+//
+//        MazeGenerator mazeGenerator = new MazeGenerator(maze);
+//        mazeGenerator.mazeGeneration();
+//
+//
+//        int cellWidth = (int) Math.floor((double) width / (maze.getNumberOfCols() + 1));
+//        int cellHeight = (int) Math.floor((double) height / (maze.getNumberOfRows() + 1));
+//
+//
+//        for (int i = 0; i < maze.getNumberOfRows(); i++) {
+//            for (int j = 0; j < maze.getNumberOfCols(); j++) {
+//                gc.setFill(Color.BLACK);
+//                if (maze.getVerticalWall().get(i * maze.getNumberOfCols() + j) == 1) {
+//                    gc.fillRect((j + 1)  * cellWidth - 2, i * cellHeight, 2, cellHeight);
+//                }
+//                if (maze.getHorizontalWall().get(i * maze.getNumberOfCols() + j) == 1) {
+//                    gc.fillRect(j * cellWidth, (i + 1)  * cellHeight - 2 , cellWidth , 2);
+//                }
+//            }
+//        }
+//        Group root = new Group(canvas);
+//        Scene scene = new Scene(root, 500, 500);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 }

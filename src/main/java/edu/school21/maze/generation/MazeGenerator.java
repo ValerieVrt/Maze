@@ -15,7 +15,6 @@ public class MazeGenerator {
     private List<Integer> decisionArray;
     private int indexDecisionArray;
     private final SetService setService;
-
     private final LineService lineService;
 
 
@@ -25,12 +24,12 @@ public class MazeGenerator {
         setService = new SetService();
         setFillCounter = 1;
         indexDecisionArray = 0;
-        //lineOfSets = new LineOfSets(maze.getNumberOfCols());
         lineService = new LineService(maze.getNumberOfCols());
     }
 
     public void mazeGeneration() {
         generateRandomNumber();
+        System.out.println(decisionArray);
         for (int i = 0; i < maze.getNumberOfRows(); i++) {
             assignSetsToArrayCells();
             verticalWallPlacement();
@@ -42,6 +41,9 @@ public class MazeGenerator {
                 resetCellsWithHorizontalWalls();
             }
         }
+        System.out.println(maze.getVerticalWall());
+        System.out.println(maze.getHorizontalWall());
+        System.out.println();
     }
 
     /**
@@ -67,8 +69,9 @@ public class MazeGenerator {
             if ((i != lineService.getSize() - 1) && (!lineService.compareSets(i, i + 1))) {
                 maze.getVerticalWall().set((maze.getNumberOfRows() - 1) * maze.getNumberOfCols() + i, 0);
                 Integer currentSet = lineService.getCellByIndex(i);
+                Integer rightSet = lineService.getSetByIndex(i + 1);
                 for (int j = 0; j < lineService.getSize(); j++) {
-                    if (lineService.compareSets(j, i + 1)) {
+                    if (lineService.compareSets(j, rightSet)) {
                         lineService.setCellByIndex(j, currentSet);
                     }
                 }
@@ -117,7 +120,7 @@ public class MazeGenerator {
         Integer currentSet = lineService.getCellByIndex(index);
         Integer rightCell = lineService.getCellByIndex(index + 1);
         for (int j = 0; j < lineService.getSize(); j++) {
-            if (lineService.getCellByIndex(j).equals(rightCell)) {
+            if (lineService.compareSets(j, rightCell)) {
                 lineService.setCellByIndex(j, currentSet);
                 setService.incrementNumberOfCellsInSet(currentSet);
                 setService.decrementNumberOfCellsInSet(rightCell);
