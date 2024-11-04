@@ -11,60 +11,17 @@
 package edu.school21.maze.app;
 
 import edu.school21.maze.controller.Controller;
-import edu.school21.maze.generation.MazeGenerator;
-import edu.school21.maze.model.Maze;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
-    private int width = 500;
-    private int height = 500;
-
-
     public static void main(String[] args) {
         Application.launch();
     }
-
     @Override
     public void start(Stage stage) {
         Controller mazeApp = new Controller();
         mazeApp.start(stage);
     }
-
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        Canvas canvas = new Canvas(500, 500);
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Maze maze = new Maze(10,10);
-//
-//        MazeGenerator mazeGenerator = new MazeGenerator(maze);
-//        mazeGenerator.mazeGeneration();
-//
-//
-//        int cellWidth = (int) Math.floor((double) width / (maze.getNumberOfCols() + 1));
-//        int cellHeight = (int) Math.floor((double) height / (maze.getNumberOfRows() + 1));
-//
-//
-//        for (int i = 0; i < maze.getNumberOfRows(); i++) {
-//            for (int j = 0; j < maze.getNumberOfCols(); j++) {
-//                gc.setFill(Color.BLACK);
-//                if (maze.getVerticalWall().get(i * maze.getNumberOfCols() + j) == 1) {
-//                    gc.fillRect((j + 1)  * cellWidth - 2, i * cellHeight, 2, cellHeight);
-//                }
-//                if (maze.getHorizontalWall().get(i * maze.getNumberOfCols() + j) == 1) {
-//                    gc.fillRect(j * cellWidth, (i + 1)  * cellHeight - 2 , cellWidth , 2);
-//                }
-//            }
-//        }
-//        Group root = new Group(canvas);
-//        Scene scene = new Scene(root, 500, 500);
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 }
