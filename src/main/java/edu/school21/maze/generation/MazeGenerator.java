@@ -14,8 +14,8 @@ public class MazeGenerator {
     private List<Integer> decisionArray;
     private int indexDecisionArray;
     private final SetService setService;
-
     private final LineService lineService;
+    private Maze maze;
 
 
     public MazeGenerator(Maze maze) {
