@@ -11,6 +11,7 @@ public class SetData {
         this.numberOfHorizontalWallsInSet = numberOfHorizontalWallsInSet;
     }
 
+
     public int getNumberOfCellsInSet() {
         return numberOfCellsInSet;
     }

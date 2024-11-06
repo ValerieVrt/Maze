@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class MazeGenerator {
-    private final Maze maze;
     private int setFillCounter;
     private List<Integer> decisionArray;
     private int indexDecisionArray;
@@ -140,14 +139,14 @@ public class MazeGenerator {
             }
         }
     }
-    private void processingDecisionToPlaceHorizontalWall(int index){
-        if (setService.getNumberOfCellsWithoutHorizontalWall(lineService.getCellByIndex(index)) > 1) {
-            maze.putHorizontalWall(1);
-            setService.incrementNumberOfHorizontalWallInSet(lineService.getCellByIndex(index));
-            lineService.addIndexSetWithHorizontalWall(index);
-        } else {
-            maze.putHorizontalWall(0);
-        }
+   private void processingDecisionToPlaceHorizontalWall(int index){
+       if (setService.getNumberOfCellsWithoutHorizontalWall(lineService.getCellByIndex(index)) > 1) {
+           maze.putHorizontalWall(1);
+           setService.incrementNumberOfHorizontalWallInSet(lineService.getCellByIndex(index));
+           lineService.addIndexSetWithHorizontalWall(index);
+       } else {
+           maze.putHorizontalWall(0);
+       }
     }
     private void incrementCellCount() {
         for (Integer set : lineService.getLine()) {

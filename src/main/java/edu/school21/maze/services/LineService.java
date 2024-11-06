@@ -1,5 +1,4 @@
 package edu.school21.maze.services;
-
 import edu.school21.maze.model.LineOfSets;
 
 import java.util.List;
@@ -42,7 +41,7 @@ public class LineService {
         lineOfSets.getIndexSetWithHorizontalWall().add(index);
     }
 
-    public boolean compareSets(int index, int set) {
-        return lineOfSets.getLine().get(index).equals(set);
+    public boolean compareSets(int indexOne, int set) {
+        return lineOfSets.getLine().get(indexOne).equals(set);
     }
 }
