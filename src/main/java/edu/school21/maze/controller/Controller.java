@@ -45,16 +45,17 @@ public class Controller {
     }
 
     private void generateSolution(List<Point> coordinates) {
-        getCell(coordinates);
+        getCell(coordinates,0);
+        getCell(coordinates,1);
         WaveAlgorithm waveAlgorithm = new WaveAlgorithm(maze);
         waveAlgorithm.findPath(coordinates.get(0).getX(), coordinates.get(0).getY(), coordinates.get(1).getX(), coordinates.get(1).getY());
     }
 
-    private void getCell(List<Point> coordinates) {
-        int startCellX = coordinates.get(0).getX() / mazeCanvas.getCellHeight();
-        int startCellY  = coordinates.get(0).getY() / mazeCanvas.getCellWidth();
-        coordinates.get(0).setX(startCellX);
-        coordinates.get(0).setY(startCellY);
+    private void getCell(List<Point> coordinates, int index) {
+        int startCellX = coordinates.get(index).getX() / mazeCanvas.getCellHeight();
+        int startCellY  = coordinates.get(index).getY() / mazeCanvas.getCellWidth();
+        coordinates.get(index).setX(startCellX);
+        coordinates.get(index).setY(startCellY);
     }
 
     private void generateMaze(Integer rows, Integer cols) {
