@@ -2,17 +2,13 @@ package edu.school21.maze.controller;
 
 import edu.school21.maze.generation.MazeGenerator;
 import edu.school21.maze.model.Maze;
+import edu.school21.maze.model.Solution;
 import edu.school21.maze.view.MazeCanvas;
-import edu.school21.maze.waveAlgoritm.Point;
+import edu.school21.maze.model.Point;
 import edu.school21.maze.waveAlgoritm.WaveAlgorithm;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -21,7 +17,6 @@ import java.util.List;
 public class Controller {
     private MazeCanvas mazeCanvas;
     private Scene scene;
-    private WaveAlgorithm waveAlgorithm;
     private Maze maze;
 
     public void start(Stage stage) {
@@ -34,8 +29,8 @@ public class Controller {
         generateButton.setOnAction(event -> generateMaze(rowsSpinner.getValue(), colsSpinner.getValue()));
         List<Point> coordinates = new ArrayList<>();
         scene.setOnMouseClicked(event -> {
-            int x = (int)Math.floor(event.getSceneX()); // Получаем координату X
-            int y = (int)Math.floor(event.getSceneY()); // Получаем координату Y
+            int x = (int)event.getSceneX();
+            int y = (int)event.getSceneY();
             coordinates.add(new Point(x, y));
             if(coordinates.size() == 2){
                 generateSolution(coordinates);
@@ -45,17 +40,12 @@ public class Controller {
     }
 
     private void generateSolution(List<Point> coordinates) {
-        getCell(coordinates,0);
-        getCell(coordinates,1);
-        WaveAlgorithm waveAlgorithm = new WaveAlgorithm(maze);
-        waveAlgorithm.findPath(coordinates.get(0).getX(), coordinates.get(0).getY(), coordinates.get(1).getX(), coordinates.get(1).getY());
-    }
-
-    private void getCell(List<Point> coordinates, int index) {
-        int startCellX = coordinates.get(index).getX() / mazeCanvas.getCellHeight();
-        int startCellY  = coordinates.get(index).getY() / mazeCanvas.getCellWidth();
-        coordinates.get(index).setX(startCellX);
-        coordinates.get(index).setY(startCellY);
+        Solution solution = new Solution(coordinates);
+        solution.convertingPixelsToCells(mazeCanvas.getCellHeight(), mazeCanvas.getCellWidth());
+        WaveAlgorithm waveAlgorithm = new WaveAlgorithm(maze, solution);
+        waveAlgorithm.findPath();
+        solution.convertingCellsToPixels(mazeCanvas.getCellHeight(), mazeCanvas.getCellWidth());
+        mazeCanvas.drawSolution(solution);
     }
 
     private void generateMaze(Integer rows, Integer cols) {
