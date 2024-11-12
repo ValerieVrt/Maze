@@ -9,6 +9,7 @@ import edu.school21.maze.waveAlgoritm.WaveAlgorithm;
 import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ public class Controller {
     private MazeCanvas mazeCanvas;
     private Scene scene;
     private Maze maze;
+    private List<Point> coordinatesOfMouseClick;
 
-    public void start(Stage stage) {
+    public void startProgram(Stage stage) {
         Spinner<Integer> rowsSpinner = new Spinner<>(2, 50, 2);
         Spinner<Integer> colsSpinner = new Spinner<>(2, 50, 2);
         Button generateButton = new Button("GENERATE MAZE");
@@ -27,16 +29,23 @@ public class Controller {
         mazeCanvas.createUI(rowsSpinner, colsSpinner, generateButton, stage);
         scene = mazeCanvas.getMazeScene();
         generateButton.setOnAction(event -> generateMaze(rowsSpinner.getValue(), colsSpinner.getValue()));
-        List<Point> coordinates = new ArrayList<>();
-        scene.setOnMouseClicked(event -> {
-            int x = (int)event.getSceneX();
-            int y = (int)event.getSceneY();
-            coordinates.add(new Point(x, y));
-            if(coordinates.size() == 2){
-                generateSolution(coordinates);
-                coordinates.clear();
+        coordinatesOfMouseClick = new ArrayList<>();
+        scene.setOnMouseClicked(this::handleMouseClick);
+    }
+
+    private void handleMouseClick(MouseEvent event){
+        int x = (int)event.getSceneX();
+        int y = (int)event.getSceneY();
+        if(checkForPermissibleRangeOfValues(x, y)) {
+            coordinatesOfMouseClick.add(new Point(x, y));
+            if (coordinatesOfMouseClick.size() == 2) {
+                generateSolution(coordinatesOfMouseClick);
+                coordinatesOfMouseClick.clear();
             }
-        });
+        }
+    }
+    private boolean checkForPermissibleRangeOfValues(int x, int y) {
+        return (x < MazeCanvas.CANVAS_WIDTH) && (y < MazeCanvas.CANVAS_HEIGHT) && (maze != null);
     }
 
     private void generateSolution(List<Point> coordinates) {

@@ -16,12 +16,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MazeCanvas extends Canvas {
-    private final int CANVAS_WIDTH = 500;
-    private final int CANVAS_HEIGHT = 500;
+    public static final int CANVAS_WIDTH = 500;
+    public static final int CANVAS_HEIGHT = 500;
     private int cellWidth;
     private int cellHeight;
     private Scene scene;
     private GraphicsContext gc;
+    private Maze maze;
 
 
     public Scene getMazeScene() {
@@ -42,7 +43,7 @@ public class MazeCanvas extends Canvas {
     }
 
     public void drawMaze(Maze maze) {
-
+        this.maze = maze;
         gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
         cellWidth = CANVAS_WIDTH / maze.getNumberOfCols();
@@ -62,6 +63,8 @@ public class MazeCanvas extends Canvas {
     }
 
     public void drawSolution(Solution solution){
+        gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        drawMaze(maze);
         gc.setStroke(Color.GREEN);
         gc.setLineWidth(2);
         for (int i = 0; i < solution.getSolutionArray().size() - 1; i++) {

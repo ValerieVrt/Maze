@@ -37,7 +37,6 @@ public class WaveAlgorithm {
     }
 
     public void startWave(int startX, int startY) {
-        System.out.println(startX + " " + startY);
         List<Point> wave;
         List<Point> oldWave = new ArrayList<>();
         oldWave.add(new Point(startX, startY));
